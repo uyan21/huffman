@@ -4,13 +4,13 @@
 #include <bitset>
 #include "huffman.h"
 #include <queue>
-#define BIT 10
+#define BIT 100
 priority_queue<Node, vector<Node>, cmp> q;
 huffman::huffman(Node P[], int size) {
-	time(NULL);
+	
 	double max = 0;
 	for (int i = 0; i < size; i++) {
-		
+		time(NULL);
 		P[i].code = i + 27;
 		P[i].frequency =(1+i)*rand()%1000;
 		max += P[i].frequency;
@@ -41,8 +41,6 @@ Node huffman::tree() {
 		root->left = m;
 		root->right = M;
 		root->frequency = m->frequency + M->frequency;
-		//cout << m->frequency << " " << M->frequency << endl;
-		//cout << m << " " << M << endl;
 		q.push(*root);
 		}
 	cout << q.top().frequency<< endl;
@@ -88,10 +86,10 @@ void huffman::print(Node *argNode) {
 void huffman::code_gen(Node *argNode,Book *code,int size) {
 	Node *ptr;
 	char deter_ch = NULL;
-	for (int i = 0; i < size; i++) {
+	int i = 0;
+	while(i<size) {
 		ptr= argNode;
 		int k = i;
-		cout << bitset<BIT>(i) << endl;
 		while (ptr->left != NULL | ptr->right != NULL) {
 			if (bitset <BIT>(k)[1] == 1) {
 				code->line += "1";
@@ -102,16 +100,26 @@ void huffman::code_gen(Node *argNode,Book *code,int size) {
 				ptr = ptr->right;
 			}
 			k = k >> 1;
+			cout << bitset<10>(k) << " " << "k val" << endl;;
+			
 		}
-		i = i | code->line.length();
+		cout << code->line + " code " + ptr->code << endl;
+		
 				if (deter_ch != ptr->code) {
 					
 					deter_ch = ptr->code;
 					code->frequency = ptr->frequency;
 					code->ch = ptr->code;
 					code++;
-					i--;
+					
 				}
+				else {
+					code->line = "";
+				}
+				cout << to_string(code->line.length())+" "+ "length" << endl;
+				cout << bitset<10>(i) << endl;
+				i++;
+				
 
 	}
 	
